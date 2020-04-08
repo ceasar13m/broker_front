@@ -1,5 +1,7 @@
 import {signIn, signUp} from "../services/http-service";
 import channels from "./channels"
+import sendMessage from "../services/web-socket-service";
+
 
 class DataController {
     constructor(app) {
@@ -14,6 +16,10 @@ class DataController {
             channelId: '',
             messenger: false
         }
+    }
+
+    sendMessage(message) {
+        sendMessage(message);
     }
 
     showNewChannelWindow() {
@@ -49,7 +55,6 @@ class DataController {
     async signIn(user) {
         await signIn(user).then(response => response.json())
             .then(json => {
-                // let resp = JSON.parse(json);
                 if (json.token !== null) {
                     this.state = {
                         ...this.state,
@@ -57,6 +62,9 @@ class DataController {
                         signInLayer: false,
                         messenger: true
                     }
+                    this.app.onTokenChange({
+                        token: this.state.token
+                    });
                     this.app.onSignInLayerChange({
                         signInLayer: this.state.signInLayer
                     });

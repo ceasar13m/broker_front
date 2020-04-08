@@ -15,6 +15,11 @@ class App extends Component {
         this.state = this.dataController.getState();
     }
 
+    onTokenChange(tokenNewState) {
+        this.setState({
+            token: tokenNewState.token
+        })
+    }
     onMessengerChange(messengerNewState) {
         this.setState({
             messenger: messengerNewState.messenger
@@ -56,7 +61,8 @@ class App extends Component {
                 <div style={messengerVisibleStyle}>
                     <CreateChannelWindow
                         dataController={this.dataController}
-                        window={this.state.createNewChannelWindow}/>
+                        window={this.state.createNewChannelWindow}
+                        token={this.state.token}/>
                     <Header
                         dataController={this.dataController}/>
                     <Content

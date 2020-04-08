@@ -15,26 +15,26 @@ class CreateChannelWindow extends Component {
     handleChange(e) {
         this.setState({
             ...this.state,
-            text: e.target.value
+            name: e.target.value
         });
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        if (!this.state.text.length) {
+        if (!this.state.name.length) {
             return;
         }
-        const event = {
-            id: Date.now(),
-            date: this.props.date,
-            description: this.state.text,
+        const message = {
+            token: this.props.token,
+            command: 5,
+            data: JSON.stringify({channelName: this.state.name})
         };
 
-        this.props.dataController.addEvent(event);
+        this.props.dataController.sendMessage(message);
 
         this.setState(state => ({
             ...this.state,
-            text: ''
+            name: ''
         }));
     }
 
